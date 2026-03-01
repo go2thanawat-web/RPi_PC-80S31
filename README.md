@@ -37,8 +37,8 @@ PC側の信号 -+
 
 ## コンパイルのしかた
 ```
-$ git clone https://github.com/MinatsuT/RPi_PC-80S31.git
-$ cd RPi_PC-80S31
+git clone https://github.com/go2thanawat-web/RPi_PC-80S31.git
+cd RPi_PC-80S31
 $ make
 ```
 
