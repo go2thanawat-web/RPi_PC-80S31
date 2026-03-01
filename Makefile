@@ -1,27 +1,40 @@
-CFLAGS := -I. -I/opt/vc/include
-SRC := pc80s31.c
-OBJ := $(patsubst %.c,%.o,$(SRC))
-DEP := $(patsubst %.c,%.d,$(SRC))
-PROG := $(patsubst %.c,%,$(SRC))
+# Compiler
+CC := cc
 
-CFLAGS+=`pkg-config --cflags libusb-1.0`
-LDFLAGS+=`pkg-config --libs libusb-1.0`
+# Program
+PROG := pc80s31
 
-CFLAGS+=-Wno-deprecated-declarations -Wunused-variable -O3 -march=native
-LDFLAGS+=-L/opt/vc/lib -lm -lpthread -lbcm_host
+# Source files
+SRC := pc80s31.c MGPIO.c
+OBJ := $(SRC:.c=.o)
+DEP := $(SRC:.c=.d)
 
-all: $(DEP)
-	@$(MAKE) $(PROG)
+# CFLAGS
+CFLAGS := -I.
+CFLAGS += `pkg-config --cflags libusb-1.0`
+CFLAGS += -Wno-deprecated-declarations -Wunused-variable -O3 -march=native
+
+# LDFLAGS
+LDFLAGS := `pkg-config --libs libusb-1.0`
+LDFLAGS += -lm -lpthread
+
+# ================================
+# Build rules
+# ================================
+all: $(PROG)
+
+$(PROG): $(OBJ)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 clean:
-	@$(RM) $(DEP) $(OBJ) $(PROG)
+	$(RM) $(OBJ) $(DEP) $(PROG)
 
-ifneq ($(filter clean,$(MAKECMDGOALS)),clean)
+# ================================
+# Dependency generation
+# ================================
 -include $(DEP)
-endif
 
 %.d: %.c
 	$(info GEN $@)
-	@$(CC) -MM $(CFLAGS) $< | sed 's/\($*\)\.o[ :]*/\1.o $@ : /g' > $@
-
-%: %.d
+	@$(CC) -MM $(CFLAGS) $< | \
+	sed 's|\($*\)\.o[ :]*|\1.o $@ : |g' > $@
