@@ -1,20 +1,13 @@
-# Raspberry Pi を用いた PC-80S31 フロッピーディスクドライブエミュレータ
-Raspberry Pi を NEC PC-8031-2W/PC-80S31 のようなインテリジェントタイプのFDDユニットにします。
-d88形式の2D FDDイメージに対応しています。2ドライブです。  
-注：FDDユニット側のCPUやメモリには対応していません。
+# use Raspberry Pi as  PC-80S31 ใช้ raspbery pi เป็น Disk ของ PC8001
 
-## 必要なハードウェア
-- Raspberry Pi 4 (他のRaspberry Piでも動くと思いますが、試していません。)
-- PC-8001/PC-8801/PC-9801シリーズの320KBインテリジェントタイプFDD用コネクタから信号線を取り出してRaspberry Piの各GPIOピンに繋ぐ自作ケーブル。
-
-## ピンアサイン
+## การต่อ pin
 ```
 FDD Port(5V)           Raspberry Pi(3.3V)
-Pin 1- 8 (PB0-PB7) --> GPIO4-11 (*)3.3Vに変換して繋いで下さい
+Pin 1- 8 (PB0-PB7) --> GPIO4-11 * reduce voltage form 5 to 3.3v
 Pin19-26 (PA0-PA7) <-- GPIO12-19
-Pin27-30 (PC4-7)   --> GPIO20-23 (*)3.3Vに変換して繋いで下さい
+Pin27-30 (PC4-7)   --> GPIO20-23 * reduce voltage form 5 to 3.3v
 Pin31-33 (PC0-2)   <-- GPIO24-26
-   Pin35 (RESET#)  --> GPIO27 (*)3.3Vに変換して繋いで下さい
+   Pin35 (RESET#)  --> GPIO27 * reduce voltage form 5 to 3.3v
    Pin36 (GND)     --- GND
 
 加えて、FDDコネクタの9番ピンと10番ピンを繋いでください。これを繋がないと、FDDとして認識されません。
