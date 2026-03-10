@@ -23,9 +23,20 @@ cd RPi_PC-80S31
 $ make
 ```
 
-## start.d88
+## manual run
 `
 
 $ sudo ./pc80s31 SDOS.d88 block.d88
-```
 
+## Autorun
+
+nano ~/.bashrc
+add this to end file 
+
+if [ "$(tty)" = "/dev/tty1" ]; then
+/home/pi/8001/disk_switcher.sh
+fi
+
+and  sudo reboot
+
+after you can use button on GPIO 3 and ground( pin 5 and 6 to chang disk
