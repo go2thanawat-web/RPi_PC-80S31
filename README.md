@@ -1,53 +1,31 @@
-# use Raspberry Pi as  PC-80S31 ใช้ raspbery pi เป็น Disk ของ PC8001
+# use Raspberry Pi as  PC-80S31 disk   ใช้ raspbery pi เป็น Disk ของ PC8001
 
-## การต่อ pin
+## pin connector 
 ```
 FDD Port(5V)           Raspberry Pi(3.3V)
-Pin 1- 8 (PB0-PB7) --> GPIO4-11 * reduce voltage form 5 to 3.3v
+Pin 1- 8 (PB0-PB7) --> GPIO4-11 * reduce voltage form 5 to 3.3v by level shiffer
 Pin19-26 (PA0-PA7) <-- GPIO12-19
-Pin27-30 (PC4-7)   --> GPIO20-23 * reduce voltage form 5 to 3.3v
+Pin27-30 (PC4-7)   --> GPIO20-23 * reduce voltage form 5 to 3.3v by level shiffer
 Pin31-33 (PC0-2)   <-- GPIO24-26
-   Pin35 (RESET#)  --> GPIO27 * reduce voltage form 5 to 3.3v
+   Pin35 (RESET#)  --> GPIO27 * reduce voltage form 5 to 3.3v by level shiffer
    Pin36 (GND)     --- GND
 
-加えて、FDDコネクタの9番ピンと10番ピンを繋いでください。これを繋がないと、FDDとして認識されません。
+connect pin nummber  9 and 10 of FDD 
 FDD Port         FDD Port
 Pin9 (EXTON) --- Pin10 (GND)
 ```
-**注意**：PC側の電圧は5V、Raspberry Pi側の電圧は3.3Vなので、少なくともRaspberry Pi側に入力される上記(\*)の信号は、レベルシフタ、あるいは抵抗による分圧で、5Vから3.3Vへ変換して下さい。
-抵抗で分圧する場合は、下記のように接続します（これを12セット）。
-```
-PC側の信号 -+
-           |
-          10kΩ
-           |
-           +-- Raspberry PiのGPIOへ
-           |
-          20kΩ
-           |
-          GND
-```
+if you want to save your time use my pcb istead
 
-## コンパイルのしかた
+## how to run code
 ```
 git clone https://github.com/go2thanawat-web/RPi_PC-80S31.git
 cd RPi_PC-80S31
 $ make
 ```
 
-## 実行のしかた
-d88形式のシステムディスクイメージファイルを用意し、下記のコマンドで起動します。
-ディスクイメージファイルは、２つまで指定できます。
-```
-$ sudo ./pc80s31 system.d88
-```
-
-また、空(0バイト)のイメージファイルを指定すると、未フォーマットのディスクとして挿入されます。
-この場合、接続したPCからフォーマットして下さい。
-```
+## start.d88
+`
 $ touch blank.d88
-$ sudo ./pc80s31 system.d88 blank.d88
+$ sudo ./pc80s31 SDOS.d88 block.d88
 ```
 
-## 免責事項
-当該情報に基づいて被ったいかなる損害について、一切責任を負うものではございませんのであらかじめご了承ください。
