@@ -25,7 +25,7 @@ $ make
 
 ## start.d88
 `
-$ touch blank.d88
+
 $ sudo ./pc80s31 SDOS.d88 block.d88
 ```
 
